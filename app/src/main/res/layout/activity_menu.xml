@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.pavol.footballquiz2.MenuActivity">
+
+
+    <Button
+        android:id="@+id/btnNewGame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nová hra"
+        android:layout_marginTop="30dp"
+        android:onClick="newGame"/>
+
+    <Button
+        android:id="@+id/btnContinue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnNewGame"
+        android:onClick="continueGame"
+        android:text="Pokračovať"/>
+
+    <Button
+        android:id="@+id/btnStats"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnContinue"
+        android:onClick="goToStats"
+        android:text="Štatistiky" />
+
+    <Button
+        android:id="@+id/btnOptions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nastavenia"
+        android:onClick="goToSettings"
+        android:layout_below="@+id/btnStats" />
+
+    <Button
+        android:id="@+id/btnExit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ukončiť"
+        android:layout_below="@+id/btnOptions"
+        android:onClick="exitApp"/>
+</RelativeLayout>
