@@ -19,7 +19,7 @@ public class MenuActivity extends AppCompatActivity {
     }
 
     public void newGame(View v){
-        Intent myIntent = new Intent(MenuActivity.this, MainActivity.class);
+        Intent myIntent = new Intent(MenuActivity.this, QuizActivity.class);
         MenuActivity.this.startActivity(myIntent);
     }
 
