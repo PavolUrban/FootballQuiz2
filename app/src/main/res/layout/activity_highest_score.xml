@@ -1,9 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_highest_score"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.pavol.footballquiz2.HighestScore">
+    android:paddingBottom="16dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="64dp"
+    android:paddingTop="16dp"
+    tools:context="com.example.pavol.footballquiz2.HighestScoreActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="107dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:weightSum="1"
+        android:id="@+id/relativeLayout">
+
+        <TextView
+            android:text="Your score:"
+            android:layout_width="500dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/textScore"
+            android:background="@android:color/holo_orange_light"
+            android:padding="16dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+
+        <TextView
+            android:text="Highest score:"
+            android:layout_width="500dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textScore"
+            android:padding="16dp"
+            android:background="@color/colorAccent"
+            android:id="@+id/textHighScore"
+
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+
+            android:layout_weight="0.06"
+            android:onClick="onClick"
+            android:text="Skúsiť znova"
+            android:layout_below="@+id/textHighScore"
+            android:layout_centerHorizontal="true" />
+
+        <EditText
+            android:id="@+id/editName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/button"
+            android:layout_marginTop="36dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Meno" />
+
+        <Button
+            android:id="@+id/btnSaveScore"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/editName"
+            android:onClick="saveScore"
+            android:text="Ulozit skore" />
+    </RelativeLayout>
+
+</RelativeLayout>
