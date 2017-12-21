@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.sample.multiplechoicequiz.SettingsActivity">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:layout_marginLeft="5dp"
+        android:text="Počet otázok" />
+
+    <Spinner
+        android:id="@+id/spinnerQuestionCount"
+        android:layout_width="match_parent"
+        android:layout_below="@id/textView"
+        android:layout_height="wrap_content" />
+
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="50dp"
+        android:layout_below="@id/spinnerQuestionCount"
+        android:text="Zvuky" />
+
+    <Switch
+        android:layout_below="@id/spinnerQuestionCount"
+        android:id="@+id/swSounds"
+        android:layout_width="wrap_content"
+        android:layout_toRightOf="@id/textView2"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/btnReset"
+        android:layout_below="@id/swSounds"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Vymazať skóre"
+        android:onClick="resetScore"/>
+
+    <Button
+        android:id="@+id/btnSaveSettings"
+        android:layout_below="@id/btnReset"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Uložiť"
+        android:onClick="saveSettings"/>
+
+</RelativeLayout>

@@ -2,10 +2,14 @@ package com.example.pavol.footballquiz2;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
+import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,7 +21,8 @@ import java.util.TimerTask;
 
 public class QuizActivity extends AppCompatActivity {
 
-
+    private SoundPlayer sound;
+    Vibrator vibrator;
     private QuestionBank mQuestionLibrary = new QuestionBank();
     private TextView mScoreView;   // view for current total score
     private TextView timer;
@@ -26,7 +31,7 @@ public class QuizActivity extends AppCompatActivity {
     private Button mButtonChoice2; // multiple choice 2 for mQuestionView
     private Button mButtonChoice3; // multiple choice 3 for mQuestionView
     private Button mButtonChoice4; // multiple choice 4 for mQuestionView
-
+    private ImageView imageView;
     private String mAnswer;  // correct answer for question in mQuestionView
     private int mScore = 0;  // current total score
     private Long elapsedSeconds = 0L;
@@ -35,9 +40,14 @@ public class QuizActivity extends AppCompatActivity {
     private int mQuestionNumber = 0; // current question number
     private int mQuestionCount = 0;
     private int maxQuestionsInGame = 10;
-
+    private Boolean soundsOn =true;
     private SharedPreferences mPrefs;
     private TimerTask tt;
+
+
+    Drawable[] images;
+
+    Resources resources;
 
     //upravit tak, aby negenerovalo tie iste otazky
     private int generateRandomNumber() {
@@ -53,15 +63,41 @@ public class QuizActivity extends AppCompatActivity {
         setContentView(R.layout.activity_quiz);
         // setup screen for the first question with four alternative to answer
         mScoreView = (TextView) findViewById(R.id.score);
+        sound = new SoundPlayer(this);
         mQuestionView = (TextView) findViewById(R.id.question);
         mButtonChoice1 = (Button) findViewById(R.id.choice1);
         mButtonChoice2 = (Button) findViewById(R.id.choice2);
         mButtonChoice3 = (Button) findViewById(R.id.choice3);
         mButtonChoice4 = (Button) findViewById(R.id.choice4);
         timer = (TextView) findViewById(R.id.myTimer);
+        mPrefs = getSharedPreferences("app", MODE_PRIVATE);
+
+        imageView = (ImageView) findViewById(R.id.questionImage);
+
+        resources = getResources();
+
+        images = new Drawable[30];
+        images[24] = resources.getDrawable(R.drawable.bazaly);
+        images[25]= resources.getDrawable(R.drawable.wembley);
+        images[26]= resources.getDrawable(R.drawable.ss);//ok
+        images[27]= resources.getDrawable(R.drawable.diego);
+        images[28]= resources.getDrawable(R.drawable.ronaldo);
+        String isAnyConfiguration = mPrefs.getString("CONFIGURATION",null);
+
+        if(isAnyConfiguration != null)
+        {
+            ConfigurationModel mode = getConf();
+            maxQuestionsInGame = mode.getQuestionCount();
+            soundsOn = mode.getSoundsOn();
+        }
+        else
+        {
+            maxQuestionsInGame =10;
+            soundsOn = true;
+        }
 
 
-
+        vibrator = (Vibrator)getSystemService(VIBRATOR_SERVICE);
         Intent iin= getIntent();
         Bundle b = iin.getExtras();
 
@@ -114,8 +150,17 @@ public class QuizActivity extends AppCompatActivity {
 
         if (mQuestionNumber < mQuestionLibrary.getLength() && mQuestionCount < maxQuestionsInGame) {
 
+            imageView.setImageDrawable(null);
+            imageView.getLayoutParams().height = 0;
+
             mQuestionNumber = generateRandomNumber();
 
+            if(mQuestionNumber>23)
+            {
+                imageView.setImageDrawable(images[mQuestionNumber]);
+                imageView.getLayoutParams().height = 300;
+                imageView.requestLayout();
+            }
 
             mQuestionView.setText(mQuestionLibrary.getQuestion(mQuestionNumber));
             mButtonChoice1.setText(mQuestionLibrary.getChoice(mQuestionNumber, 1));
@@ -161,11 +206,26 @@ public class QuizActivity extends AppCompatActivity {
         // if the answer is correct, increase the score
         if (answer.getText() == mAnswer) {
             mScore = mScore + 1;
+            if (soundsOn) {
+             sound.playCorrectAnswerSound();
+            }
+            else
+            {
+                vibrator.vibrate(50);
+            }
             Toast.makeText(QuizActivity.this, "Správne!", Toast.LENGTH_SHORT).show();
         }
 
         else
         {
+            if (soundsOn) {
+                sound.playwrongAnswerSound();
+            }
+            else
+            {
+                vibrator.vibrate(150);
+            }
+
             Toast.makeText(QuizActivity.this, "Nesprávne!", Toast.LENGTH_SHORT).show();
         }
 
@@ -179,6 +239,7 @@ public class QuizActivity extends AppCompatActivity {
     private void saveGame() {
         SharedPreferences.Editor prefs = mPrefs.edit();
         Gson gson = new Gson();
+
         CurrentGame cg = new CurrentGame(mQuestionCount, mScore,maxQuestionsInGame, elapsedSeconds);
         String cgString = gson.toJson(cg);
         prefs.putString("CURRENT_GAME", cgString);
@@ -201,6 +262,18 @@ public class QuizActivity extends AppCompatActivity {
         ++elapsedSeconds;
         timer.setText(TimeHelper.getTimeFromSeconds(elapsedSeconds));
         saveGame();
+    }
+
+    private ConfigurationModel getConf(){
+        Gson gson = new Gson();
+        String json = mPrefs.getString("CONFIGURATION", "null");
+        if(json == "null") {
+            return null;
+        }
+        else {
+            ConfigurationModel cf = gson.fromJson(json,ConfigurationModel.class);
+            return cf;
+        }
     }
 
 }
