@@ -13,4 +13,4 @@ Screenshot samotnej hry:
 
 Screenshot nastavení:
 
-![nastavenia]https://github.com/PavolUrban/FootballQuiz2/blob/master/app/src/main/res/drawable/Screenshot_2017-12-21-18-08-35.png
+![nastavenia](https://github.com/PavolUrban/FootballQuiz2/blob/master/app/src/main/res/drawable/Screenshot_2017-12-21-18-08-35.png)
